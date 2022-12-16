@@ -46,7 +46,7 @@ function christmasStarGenerator() {
         positions[i] *= scale;
     }
     for (var i = 0; i < 10; ++i) {
-        colors.push(1.0, 0.765, 0.0, 1.0);
+        colors.push(0.969, 0.761, 0.169, 1.0);
     }
 
     return {
