@@ -1,5 +1,9 @@
 import { Vector } from "./vector.js";
-import { NUMBER_OF_TRIANGLES } from "./constants.js";
+import { 
+    NUMBER_OF_TRIANGLES,
+    TREE_HEIGHT,
+    TREE_WIDTH
+} from "./constants.js";
 
 function randomVector() {
     return new Vector(
@@ -17,6 +21,41 @@ function christmasTreeRandomNumber() {
     return 1 - y;
 }
 
+function christmasStarGenerator() {
+    var positions = [
+        -0.951057, 0.309017, 0.0,
+        -0.587785, -0.809017, 0.0,
+        0.587785, -0.809017, 0.0,
+        0.951057, 0.309017, 0.0,
+        0.0, 1.0, 0.0,
+        -0.293893, 0.404508, 0.0,
+        -0.475528, -0.154508, 0.0,
+        0., -0.5, 0.0,
+        0.475528, -0.154508, 0.0,
+        0.293893, 0.404508, 0.0
+    ];
+    var indices = [
+        5, 0, 6, 6, 1, 7, 7, 2, 8, 8, 3, 9, 9, 4, 5,
+        5, 6, 7, 5, 7, 8, 5, 8, 9
+    ];
+
+    var colors = [];
+    const scale = 0.4;
+
+    for (var i = 0; i < positions.length; ++i) {
+        positions[i] *= scale;
+    }
+    for (var i = 0; i < 10; ++i) {
+        colors.push(1.0, 0.765, 0.0, 1.0);
+    }
+
+    return {
+        positions: positions,
+        colors: colors,
+        indices: indices
+    }
+}
+
 function christmasDecorationGenerator() {
     var vertices = [
         0, 0, -1.902, 0, 0, 1.902, -1.701, 0, -0.8507, 1.701, 0, 0.8507, 1.376, -1.000, -0.8507, 1.376, 1.000,
@@ -29,7 +68,7 @@ function christmasDecorationGenerator() {
     ];
 
     var colors = [], indices = [], positions = [];
-    const scale = 0.2;
+    const scale = 0.05;
 
     for (var i = 0; i < vertices.length; ++i) {
         positions.push(vertices[i] * scale);
@@ -63,8 +102,6 @@ function treeGenerator() {
     for (var i = 0; i < NUMBER_OF_TRIANGLES; ++i) {
 
         var center = new Vector(0, 0, 0);
-
-        const TREE_HEIGHT = 3, TREE_WIDTH = 1.4;
 
         center.y = christmasTreeRandomNumber() * TREE_HEIGHT;
 
@@ -133,4 +170,8 @@ function initBuffers(gl, generator) {
     };
 }
 
-export { initBuffers, treeGenerator, christmasDecorationGenerator };
+export { 
+    initBuffers,
+    treeGenerator,
+    christmasDecorationGenerator,
+    christmasStarGenerator };

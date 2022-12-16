@@ -1,7 +1,11 @@
 import { Vector } from "./vector.js";
-import { initBuffers, treeGenerator, christmasDecorationGenerator } from "./init-buffers.js";
+import { initBuffers, treeGenerator, christmasDecorationGenerator, christmasStarGenerator } from "./init-buffers.js";
 import { clearScene, drawScene } from "./draw-scene.js";
-import { NUMBER_OF_TRIANGLES, NUMBER_OF_DECORATIONS } from "./constants.js";
+import { 
+    NUMBER_OF_DECORATIONS,
+    TREE_HEIGHT,
+    TREE_WIDTH
+} from "./constants.js";
 
 let rotation = 0.0;
 let deltaTime = 0;
@@ -83,6 +87,7 @@ function main() {
     // objects we'll be drawing.
     const tree_buffers = initBuffers(gl, treeGenerator);
     const decoration_buffers = initBuffers(gl, christmasDecorationGenerator);
+    const star_buffers = initBuffers(gl, christmasStarGenerator);
     let then = 0;
 
     // Draw the scene repeatedly
@@ -93,8 +98,15 @@ function main() {
 
         clearScene(gl);
         drawScene(gl, programInfo, tree_buffers, rotation, new Vector(0, 0, 0));
-        for (var i = 0; i < )
-        drawScene(gl, programInfo, decoration_buffers, rotation, new Vector(0, 0, 0));
+        for (var i = 1; i < NUMBER_OF_DECORATIONS + 1; ++i) {
+            let pos = new Vector(0, TREE_HEIGHT * Math.pow(1 - i / (NUMBER_OF_DECORATIONS + 1), 2), 0);
+            const rad = (TREE_HEIGHT - pos.y) * TREE_WIDTH / TREE_HEIGHT;
+            pos.x = rad * Math.cos(i * 1.3);
+            pos.z = rad * Math.sin(i * 1.3);
+            
+            drawScene(gl, programInfo, decoration_buffers, rotation, pos);
+        }
+        drawScene(gl, programInfo, star_buffers, 0, new Vector(0, 3.4 + Math.sin(3 * rotation) * 0.15, 0))
         rotation += deltaTime * 0.4;
 
         requestAnimationFrame(render);

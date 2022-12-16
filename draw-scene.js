@@ -38,7 +38,7 @@ function drawScene(gl, programInfo, buffers, rotation, offset) {
     mat4.translate(
         modelViewMatrix, // destination matrix
         modelViewMatrix, // matrix to translate
-        [-0.0 + offset.x, -1.8 + offset.y, -6.0 + offset.z]
+        [-0.0, -1.8, -6.0]
     ); // amount to translate
     // mat4.translate(
     //     modelViewMatrix, // destination matrix
@@ -52,6 +52,12 @@ function drawScene(gl, programInfo, buffers, rotation, offset) {
         rotation, // amount to rotate in radians
         [0, 1, 0]
     ); // axis to rotate around (Y)
+
+    mat4.translate(
+        modelViewMatrix, // destination matrix
+        modelViewMatrix, // matrix to translate
+        [offset.x, offset.y, offset.z]
+    ); // amount to translate
 
     // Tell WebGL how to pull out the positions from the position
     // buffer into the vertexPosition attribute.
